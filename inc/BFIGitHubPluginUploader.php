@@ -70,11 +70,22 @@ class BFIGitHubPluginUpdater {
 
         // Update the transient to include our updated plugin data
         if ( $doUpdate == 1 ) {
-            $package = $this->githubAPIResult->zipball_url;
 
-            // Include the access token for private GitHub repos
-            if ( !empty( $this->accessToken ) ) {
-                $package = add_query_arg( array( "access_token" => $this->accessToken ), $package );
+
+            $kintone_to_wp_license_key_attachment = get_option( '_kintone_to_wp_license_key_attachment' );
+            $license_result_attachment = $this->gumroad_verify_license($kintone_to_wp_license_key_attachment, 'jIewp');
+
+            error_log(var_export($kintone_to_wp_license_key_attachment, true));
+            error_log(var_export($license_result_attachment, true));
+            $package = '';       
+            if( !is_wp_error($license_result_attachment) ){
+
+                $package = $this->githubAPIResult->zipball_url;
+
+                // Include the access token for private GitHub repos
+                if ( !empty( $this->accessToken ) ) {
+                    $package = add_query_arg( array( "access_token" => $this->accessToken ), $package );
+                }
             }
 
             $obj = new stdClass();
@@ -111,19 +122,17 @@ class BFIGitHubPluginUpdater {
         $kintone_to_wp_license_key_attachment = get_option( '_kintone_to_wp_license_key_attachment' );
         $license_result_attachment = $this->gumroad_verify_license($kintone_to_wp_license_key_attachment, 'jIewp');
         
-        $downloadLink = '';       
-        if( !is_wp_error($license_result_attachment) ){
 
-            $downloadLink = $this->githubAPIResult->zipball_url;
+        $downloadLink = $this->githubAPIResult->zipball_url;
 
-            // Include the access token for private GitHub repos
-            if ( !empty( $this->accessToken ) ) {
-                $downloadLink = add_query_arg(
-                    array( "access_token" => $this->accessToken ),
-                    $downloadLink
-                );
-            }
+        // Include the access token for private GitHub repos
+        if ( !empty( $this->accessToken ) ) {
+            $downloadLink = add_query_arg(
+                array( "access_token" => $this->accessToken ),
+                $downloadLink
+            );
         }
+
         $response->download_link = $downloadLink;
 
         // We're going to parse the GitHub markdown release notes, include the parser
