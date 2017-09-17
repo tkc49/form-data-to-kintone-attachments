@@ -75,8 +75,6 @@ class BFIGitHubPluginUpdater {
             $kintone_to_wp_license_key_attachment = get_option( '_kintone_to_wp_license_key_attachment' );
             $license_result_attachment = $this->gumroad_verify_license($kintone_to_wp_license_key_attachment, 'jIewp');
 
-            error_log(var_export($kintone_to_wp_license_key_attachment, true));
-            error_log(var_export($license_result_attachment, true));
             $package = '';       
             if( !is_wp_error($license_result_attachment) ){
 
