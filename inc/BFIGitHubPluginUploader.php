@@ -72,8 +72,8 @@ class BFIGitHubPluginUpdater {
         if ( $doUpdate == 1 ) {
 
 
-            $kintone_to_wp_license_key_attachment = get_option( '_kintone_to_wp_license_key_attachment' );
-            $license_result_attachment = $this->gumroad_verify_license($kintone_to_wp_license_key_attachment, 'jIewp');
+            $kintone_to_wp_license_key_attachment = base64_decode(get_option( '_kintone_to_wp_license_key_attachment' ));
+            $license_result_attachment = $this->gumroad_verify_license($kintone_to_wp_license_key_attachment, GUMROAD_KINTONE_FORM_ATTACHMENTS_SLUG);
 
             $package = '';       
             if( !is_wp_error($license_result_attachment) ){
