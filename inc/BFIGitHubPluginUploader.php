@@ -108,14 +108,21 @@ class BFIGitHubPluginUpdater {
         $response->homepage = $this->pluginData["PluginURI"];
 
         // This is our release download zip file
-        $downloadLink = $this->githubAPIResult->zipball_url;
+        $kintone_to_wp_license_key_attachment = get_option( '_kintone_to_wp_license_key_attachment' );
+        $license_result_attachment = $this->gumroad_verify_license($kintone_to_wp_license_key_attachment, 'jIewp');
+        
+        $downloadLink = '';       
+        if( !is_wp_error($license_result_attachment) ){
 
-        // Include the access token for private GitHub repos
-        if ( !empty( $this->accessToken ) ) {
-            $downloadLink = add_query_arg(
-                array( "access_token" => $this->accessToken ),
-                $downloadLink
-            );
+            $downloadLink = $this->githubAPIResult->zipball_url;
+
+            // Include the access token for private GitHub repos
+            if ( !empty( $this->accessToken ) ) {
+                $downloadLink = add_query_arg(
+                    array( "access_token" => $this->accessToken ),
+                    $downloadLink
+                );
+            }
         }
         $response->download_link = $downloadLink;
 
@@ -177,4 +184,25 @@ class BFIGitHubPluginUpdater {
 
         return $result;
     }
+    public function gumroad_verify_license( $license, $guid ) {
+        $ch = curl_init( 'https://api.gumroad.com/v2/licenses/verify' );
+        curl_setopt_array( $ch, [
+            CURLOPT_CONNECTTIMEOUT => 10,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => "product_permalink={$guid}&license_key={$license}",
+        ] );
+        $result = curl_exec( $ch );
+        curl_close( $ch );
+        if ( ! $result ) {
+            return false;
+        }
+        if ( ( $json = json_decode( $result ) ) && $json->success ) {
+            return $json;
+        } else {
+            return new WP_Error( 'invalid_license', '無効なライセンスです。', [ 'status' => 403 ] );
+        }
+    }
+
 }
