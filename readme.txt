@@ -3,7 +3,7 @@ Contributors: tkc49
 Tags: cybozu, kintone, crm, database, custom field, contact form 7, form
 Requires at least: 4.9
 Tested up to: 4.9
-Stable tag: 1.10.2
+Stable tag: 1.11.0
 Requires PHP: 7.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -39,4 +39,5 @@ Collaborate with team members and partners via apps and workspaces.
 
 
 == Changelog ==
+* 1.11.0 - Test Relese
 * 1.0.0 - First Release
