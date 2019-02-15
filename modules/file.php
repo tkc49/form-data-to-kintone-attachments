@@ -62,14 +62,14 @@ class KintoneForm_file
 
 		$res = wp_remote_post( 
 			$request_url, 
-			[
-		    	'headers' => [
+			array(
+		    	'headers' => array(
 		    		'Content-Type' => "multipart/form-data; boundary={$boundary}", 
 		    		'X-Cybozu-API-Token' 	=> $appdata['token'],
 		    		'Content-Length' 	=> strlen($body),
-		    	],
+				),
 		    	'body' => $body
-			]
+			)
 		);
 
 		if ( is_wp_error( $res ) ) {
@@ -95,5 +95,3 @@ class KintoneForm_file
 	}
 
 }
-
-
