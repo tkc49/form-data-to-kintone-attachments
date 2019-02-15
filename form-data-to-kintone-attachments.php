@@ -3,7 +3,7 @@
  * Plugin Name: Form data to kintone Attachments.
  * Plugin URI:  
  * Description: This plugin is an addon for "kintone form".
- * Version:	 1.11.0
+ * Version:	 1.12.0
  * Author:	  Takashi Hosoya
  * Author URI:  http://ht79.info/
  * License:	 GPLv2 
