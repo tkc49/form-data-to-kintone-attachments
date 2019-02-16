@@ -37,7 +37,6 @@ $KintoneFormAttachments = new KintoneFormAttachments();
 $KintoneFormAttachments->register();
 
 require KINTONE_FORM_ATTACHMENTS_PATH . '/modules/file.php';
-require_once( KINTONE_FORM_ATTACHMENTS_PATH . '/inc/BFIGitHubPluginUploader.php' );
 
 
 
@@ -71,9 +70,6 @@ class KintoneFormAttachments {
 			dirname( plugin_basename( __FILE__ ) ).$this->langs
 		);
 
-		if ( is_admin() ) {
-		    new BFIGitHubPluginUpdater( __FILE__, 'tkc49', "form-data-to-kintone-attachments" );
-		}		
 
 		add_filter( 'kintone_form_attachments_data', array( $this, 'kintone_form_attachments_data' ), 10, 6 );
 		add_filter( 'kintone_fieldcode_supported_list', array( $this, 'kintone_fieldcode_supported_list' ), 10, 1 );
